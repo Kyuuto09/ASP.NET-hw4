@@ -1,0 +1,10 @@
+# Node.js / frontend
+node_modules/
+dist/
+
+# ASP.NET / backend
+bin/
+obj/
+
+# VSCode
+.vscode/
