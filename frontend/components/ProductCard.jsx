@@ -9,7 +9,13 @@ export default function ProductCard({ product, style }) {
       className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-lg animate-fadeIn"
       style={style}
     >
-      <img src={product.image} alt={product.name} className="w-40 h-40 object-cover rounded-lg mb-4" />
+      <div className="w-full flex justify-center mb-4">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="max-h-[200px] w-auto object-contain"
+        />
+      </div>
       <h2 className="text-lg font-semibold text-gray-900 mb-1">{product.name}</h2>
       <p className="text-gray-600 font-medium mb-4">${product.price}</p>
       <button

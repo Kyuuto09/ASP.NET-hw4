@@ -19,3 +19,10 @@ backend/appsettings.*.json
 
 # Logs
 *.log
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
