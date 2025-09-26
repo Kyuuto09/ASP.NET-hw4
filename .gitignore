@@ -1,10 +1,21 @@
-# Node.js / frontend
-node_modules/
-dist/
+# Node.js / React
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.env
 
-# ASP.NET / backend
-bin/
-obj/
+# ASP.NET Core / C#
+backend/bin/
+backend/obj/
+backend/appsettings.*.json
 
-# VSCode
+# OS / IDE / Editor
 .vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
