@@ -28,13 +28,13 @@ namespace backend.Controllers
         {
             var query = _db.Products.Include(p => p.Category).AsQueryable();
 
-            // Apply filters
+            // Apply filters (with partial search support - case insensitive)
             if (categoryId.HasValue)
                 query = query.Where(p => p.CategoryId == categoryId.Value);
             if (!string.IsNullOrWhiteSpace(color))
-                query = query.Where(p => p.Color == color);
+                query = query.Where(p => p.Color != null && p.Color.ToLower().Contains(color.ToLower()));
             if (!string.IsNullOrWhiteSpace(capacity))
-                query = query.Where(p => p.Capacity == capacity);
+                query = query.Where(p => p.Capacity != null && p.Capacity.ToLower().Contains(capacity.ToLower()));
 
             // Fetch filtered data into memory
             var productsList = await query.AsNoTracking().ToListAsync();

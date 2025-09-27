@@ -1,88 +1,108 @@
-﻿using backend.Data;
-using backend.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using backend.Data;       // adjust namespace to your project
+using backend.Models;    // adjust namespace to your project
 
 namespace backend.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class CartController : ControllerBase
+    [Route("api/[controller]")]
+    public class CartsController : ControllerBase
     {
-        private readonly AppDbContext _db;
+        private readonly AppDbContext _context;
 
-        public CartController(AppDbContext db)
+        // Temporary in-memory cart (no authentication yet)
+        private static List<CartItem> _cart = new();
+
+        public CartsController(AppDbContext context)
         {
-            _db = db;
+            _context = context;
         }
 
+        // GET /api/carts
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetCart()
         {
-            var cartItems = await _db.CartItems
-                .Include(c => c.Product)
-                .ThenInclude(p => p.Category)
-                .ToListAsync();
+            var items = await Task.WhenAll(_cart.Select(async ci =>
+            {
+                // Convert ProductId string to int for database lookup
+                if (!int.TryParse(ci.ProductId, out int productId)) return null;
+                var product = await _context.Products.FindAsync(productId);
+                if (product == null) return null;
 
-            var items = cartItems.Select(c => new {
-                cartItemId = c.Id,
-                productId = c.ProductId,
-                name = c.Product.Name,
-                price = (double)c.Product.Price,
-                image = c.Product.Image,
-                quantity = c.Quantity
-            });
+                return new
+                {
+                    id = ci.Id,
+                    productId = ci.ProductId,
+                    quantity = ci.Quantity,
+                    product = new
+                    {
+                        product.Id,
+                        product.Name,
+                        product.Price,
+                        product.Image
+                    }
+                };
+            }));
 
-            return Ok(new { items });
+            return Ok(new { items = items.Where(x => x != null) });
         }
 
+        // POST /api/carts
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CartAddRequest request)
+        public IActionResult AddToCart([FromBody] AddToCartRequest request)
         {
-            var product = await _db.Products.FindAsync(request.ProductId);
-            if (product == null) return NotFound();
-
-            var existing = await _db.CartItems.FirstOrDefaultAsync(c => c.ProductId == request.ProductId);
-            if (existing != null)
+            var existingItem = _cart.FirstOrDefault(ci => ci.ProductId == request.ProductId);
+            if (existingItem != null)
             {
-                existing.Quantity += request.Quantity;
+                existingItem.Quantity += request.Quantity;
             }
             else
             {
-                _db.CartItems.Add(new CartItem
+                _cart.Add(new CartItem
                 {
+                    Id = Guid.NewGuid().ToString(),
                     ProductId = request.ProductId,
                     Quantity = request.Quantity
                 });
             }
 
-            await _db.SaveChangesAsync();
-            return await Get();
+            return Ok(new { message = "Item added to cart", items = _cart });
         }
 
-        [HttpDelete("{cartItemId}")]
-        public async Task<IActionResult> Remove(int cartItemId)
+        // DELETE /api/carts/{id}
+        [HttpDelete("{id}")]
+        public IActionResult RemoveFromCart(string id)
         {
-            var item = await _db.CartItems.FindAsync(cartItemId);
-            if (item == null) return NotFound();
+            var item = _cart.FirstOrDefault(ci => ci.Id == id);
+            if (item == null)
+                return NotFound(new { message = "Item not found" });
 
-            _db.CartItems.Remove(item);
-            await _db.SaveChangesAsync();
-            return await Get();
+            _cart.Remove(item);
+            return Ok(new { message = "Item removed", items = _cart });
         }
 
+        // DELETE /api/carts
         [HttpDelete]
-        public async Task<IActionResult> Clear()
+        public IActionResult ClearCart()
         {
-            _db.CartItems.RemoveRange(_db.CartItems);
-            await _db.SaveChangesAsync();
-            return await Get();
+            _cart.Clear();
+            return Ok(new { message = "Cart cleared", items = _cart });
         }
     }
 
-    public class CartAddRequest
+    // Request schema
+    public class AddToCartRequest
     {
-        public int ProductId { get; set; }
+        public string ProductId { get; set; }
+        public int Quantity { get; set; }
+    }
+
+    // Cart item schema (in-memory only)
+    public class CartItem
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string ProductId { get; set; }
         public int Quantity { get; set; }
     }
 }
