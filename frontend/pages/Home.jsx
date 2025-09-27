@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import { fetchProducts } from "../src/api/api";
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
+  const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,7 +30,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="pt-24 p-10 min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-100 flex items-center justify-center">
-        <p className="text-xl text-gray-600">Loading products...</p>
+        <p className="text-xl text-gray-700 dark:text-gray-300">{t('home.loading')}</p>
       </div>
     );
   }
@@ -37,12 +39,12 @@ export default function Home() {
     return (
       <div className="pt-24 p-10 min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-100 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-xl text-red-600 mb-4">Error loading products: {error}</p>
+          <p className="text-xl text-red-600 mb-4">{t('home.error')}: {error}</p>
           <button 
             onClick={() => window.location.reload()} 
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
-            Retry
+            {t('home.retry')}
           </button>
         </div>
       </div>
@@ -51,7 +53,7 @@ export default function Home() {
 
   return (
     <div className="pt-24 p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 
-                    bg-gradient-to-b from-blue-50 via-white to-gray-100 min-h-screen">
+                    min-h-screen apple-glass-bg">
       {products.length > 0 ? (
         products.map((product, idx) => (
           <ProductCard
@@ -62,7 +64,7 @@ export default function Home() {
         ))
       ) : (
         <div className="col-span-full text-center py-20">
-          <p className="text-xl text-gray-600">No products found</p>
+          <p className="text-xl text-gray-700 dark:text-gray-300">{t('home.noProducts')}</p>
         </div>
       )}
     </div>

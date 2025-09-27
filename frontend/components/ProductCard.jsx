@@ -1,28 +1,30 @@
 import React, { useContext } from "react";
 import { CartContext } from "../src/context/CartContext";
+import { useTranslation } from 'react-i18next';
 
 export default function ProductCard({ product, style }) {
   const { addToCart } = useContext(CartContext);
+  const { t } = useTranslation();
 
   return (
     <div
-      className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-lg animate-fadeIn"
+      className="apple-glass-card rounded-3xl p-8 flex flex-col items-center transition-all duration-500 hover:scale-[1.02] animate-fadeIn"
       style={style}
     >
-      <div className="w-full flex justify-center mb-4">
+      <div className="w-full flex justify-center mb-6 apple-product-image">
         <img
           src={product.image}
           alt={product.name}
-          className="max-h-[200px] w-auto object-contain"
+          className="max-h-[220px] w-auto object-contain"
         />
       </div>
-      <h2 className="text-lg font-semibold text-gray-900 mb-1">{product.name}</h2>
-      <p className="text-gray-600 font-medium mb-4">${product.price}</p>
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 text-center tracking-tight leading-tight">{product.name}</h2>
+      <p className="text-gray-900 dark:text-gray-100 font-semibold mb-6 text-2xl">${product.price}</p>
       <button
-        className="bg-gray-900 text-white px-6 py-2 rounded-full hover:bg-gray-800 transition-colors"
+        className="apple-button-primary w-full"
         onClick={() => addToCart(product)}
       >
-        Add to Cart
+        {t('common.addToBag')}
       </button>
     </div>
   );
