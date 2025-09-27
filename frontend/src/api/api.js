@@ -14,8 +14,7 @@ export const fetchProducts = async ({
     pageSize: pageSize.toString(),
     sortOrder
   });
-  
-  // Add optional parameters only if they have values
+
   if (categoryId) params.append('categoryId', categoryId.toString());
   if (color) params.append('color', color);
   if (capacity) params.append('capacity', capacity);
@@ -47,7 +46,7 @@ export const addToCartAPI = async (productId, quantity = 1) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ 
-      ProductId: productId.toString(), // Convert to string and use Pascal case
+      ProductId: productId.toString(), 
       Quantity: quantity 
     }),
   });

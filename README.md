@@ -10,8 +10,6 @@
 
 **A modern, responsive e-commerce platform inspired by Apple's design language**
 
-[🚀 Live Demo](#) • [📖 Documentation](#features) • [🐛 Report Bug](https://github.com/Kyuuto09/ASP-NET-hw4/issues) • [✨ Request Feature](https://github.com/Kyuuto09/ASP-NET-hw4/issues)
-
 </div>
 
 ---
@@ -103,8 +101,10 @@ Before running this project, make sure you have the following installed:
 #### 🚀 **Quick Start (One Command Setup)**
 ```bash
 # Clone and setup everything at once
-git clone https://github.com/Kyuuto09/ASP-NET-hw4.git && cd ASP-NET-hw4 && cd backend && dotnet restore && dotnet ef database update && cd ../frontend && npm install
+git clone https://github.com/Kyuuto09/ASP-NET-hw4.git && cd ASP-NET-hw4 && cd backend && dotnet restore && dotnet ef database update && cd ../frontend && npm install && npm run dev
 ```
+
+> **💡 Pro Tip**: The above command will clone, install all dependencies, setup the database, and start the development server automatically!
 
 #### 📋 **Step-by-Step Installation**
 
@@ -133,8 +133,20 @@ git clone https://github.com/Kyuuto09/ASP-NET-hw4.git && cd ASP-NET-hw4 && cd ba
 
 #### 📦 **Frontend Dependencies**
 All required packages will be installed automatically with `npm install`:
+
+**Main Dependencies:**
 ```bash
 npm install react@^19.1.1 react-dom@^19.1.1 react-router-dom@^7.9.2 i18next@^25.5.2 react-i18next@^16.0.0 i18next-browser-languagedetector@^8.2.0 tailwindcss@^4.1.13 @tailwindcss/vite@^4.1.13
+```
+
+**Development Dependencies:**
+```bash
+npm install -D @eslint/js@^9.36.0 @types/react@^19.1.13 @types/react-dom@^19.1.9 @vitejs/plugin-react@^5.0.3 eslint@^9.36.0 eslint-plugin-react-hooks@^5.2.0 eslint-plugin-react-refresh@^0.4.20 globals@^16.4.0 vite@^7.1.7
+```
+
+**Or install everything at once:**
+```bash
+npm install react@^19.1.1 react-dom@^19.1.1 react-router-dom@^7.9.2 i18next@^25.5.2 react-i18next@^16.0.0 i18next-browser-languagedetector@^8.2.0 tailwindcss@^4.1.13 @tailwindcss/vite@^4.1.13 && npm install -D @eslint/js@^9.36.0 @types/react@^19.1.13 @types/react-dom@^19.1.9 @vitejs/plugin-react@^5.0.3 eslint@^9.36.0 eslint-plugin-react-hooks@^5.2.0 eslint-plugin-react-refresh@^0.4.20 globals@^16.4.0 vite@^7.1.7
 ```
 
 #### ⚙️ **Backend Dependencies** 
@@ -306,7 +318,50 @@ chore: maintenance tasks
 
 ---
 
-## 🐛 Known Issues & Roadmap
+## � Troubleshooting
+
+### 🚨 **Common Issues & Solutions**
+
+#### Frontend Won't Start?
+```bash
+# Clear npm cache and reinstall
+npm cache clean --force
+rm -rf node_modules package-lock.json  # Linux/Mac
+# OR
+rmdir /s node_modules & del package-lock.json  # Windows
+npm install
+```
+
+#### Build Errors?
+```bash
+# Make sure you have Node.js v18+ and npm latest
+node --version  # Should be v18+
+npm --version
+npm install -g npm@latest
+```
+
+#### Database Issues?
+```bash
+# Recreate database
+cd backend
+rm eshop.db eshop.db-shm eshop.db-wal
+dotnet ef database update
+```
+
+#### Port Already in Use?
+- **Frontend (5173)**: Change port in `vite.config.js` or kill process
+- **Backend (7017)**: Change port in `launchSettings.json`
+
+### 📞 **Need Help?**
+If you encounter any issues:
+1. Check the [Issues](https://github.com/Kyuuto09/ASP-NET-hw4/issues) page
+2. Make sure all prerequisites are installed
+3. Follow the installation steps exactly as written
+4. Try the troubleshooting steps above
+
+---
+
+## �🐛 Known Issues & Roadmap
 
 ### 🔧 Current Issues
 - [ ] Mobile navigation needs improvement
