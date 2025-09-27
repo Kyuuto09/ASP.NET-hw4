@@ -1,16 +1,19 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#### 📦 **Frontend Dependencies**
+All required packages will be installed automatically with `npm install`:
 
-Currently, two official plugins are available:
+**Main Dependencies:**
+```bash
+npm install react@^19.1.1 react-dom@^19.1.1 react-router-dom@^7.9.2 i18next@^25.5.2 react-i18next@^16.0.0 i18next-browser-languagedetector@^8.2.0 tailwindcss@^4.1.13 @tailwindcss/vite@^4.1.13
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Development Dependencies:**
+```bash
+npm install -D @eslint/js@^9.36.0 @types/react@^19.1.13 @types/react-dom@^19.1.9 @vitejs/plugin-react@^5.0.3 eslint@^9.36.0 eslint-plugin-react-hooks@^5.2.0 eslint-plugin-react-refresh@^0.4.20 globals@^16.4.0 vite@^7.1.7
+```
 
-## React Compiler
-
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Or install everything at once:**
+```bash
+npm install react@^19.1.1 react-dom@^19.1.1 react-router-dom@^7.9.2 i18next@^25.5.2 react-i18next@^16.0.0 i18next-browser-languagedetector@^8.2.0 tailwindcss@^4.1.13 @tailwindcss/vite@^4.1.13 && npm install -D @eslint/js@^9.36.0 @types/react@^19.1.13 @types/react-dom@^19.1.9 @vitejs/plugin-react@^5.0.3 eslint@^9.36.0 eslint-plugin-react-hooks@^5.2.0 eslint-plugin-react-refresh@^0.4.20 globals@^16.4.0 vite@^7.1.7
+```
